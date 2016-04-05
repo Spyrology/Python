@@ -24,17 +24,20 @@ y = np.matrix(intrate).transpose()
 #print(y)
 
 #The independent variables shaped as columns
+x3 = np.matrix(fico)
+print(x3)
 x1 = np.matrix(fico).transpose()
+print(x1)
 x2 = np.matrix(loanamt).transpose()
 
 x = np.column_stack([x1,x2])
-#print(x)
+print(x)
 
-X = sm.add_constant(x)
-model = sm.OLS(y,X)
-f = model.fit()
+# X = sm.add_constant(x)
+# model = sm.OLS(y,X)
+# f = model.fit()
 
-print(f.summary())
+# print(f.summary())
 
 # plt.figure()
 # p = loansData['FICO.Score'].hist()
