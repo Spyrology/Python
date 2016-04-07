@@ -37,10 +37,10 @@ coeff = result.params
 print(coeff)
 
 def logistic_function (coeff):
-	p = 1/(1 + math.e**(coeff['Intercept'] + coeff['FICO.Score']*fico - coeff['Amount.Requested']*loanamt))
+	p = 1/(1 + math.e**(coeff['Intercept'] + coeff['FICO.Score']*680 - coeff['Amount.Requested']*10000))
 	return p
 
-# print(logistic_function(coeff))
+print(logistic_function(coeff))
 
 # x = np.logistic_function(coeff)
 # y = np.linspace(0,1)
@@ -51,5 +51,6 @@ def logistic_function (coeff):
 
 # plt.show()
 
-#print(loansData[loansData['Interest.Rate'] == 10].head())
+# print(loansData[loansData['Interest.Rate'] == .10])
+# print(loansData[loansData['Interest.Rate'] == .13].head())
 #loansData.to_csv('loansData_clean.csv', header=True, index=False)
