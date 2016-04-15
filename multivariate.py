@@ -16,35 +16,39 @@ loansData['Loan.Length'] = cleanLoanLength
 loansData['FICO.Score'] = [int(val.split('-')[0]) for val in loansData['FICO.Range']]
 
 loansData['Annual.Income'] = loansData['Monthly.Income'].map(lambda val: val*12)
-loansData['Annual.Income'] = loansData['Annual.Income'].astype(object)
-loansData['Annual.Income'] = loansData['Monthly.Income'].map(lambda x: int(x))
-print(loansData['Annual.Income'])
 
-# def H_O(x):
-# 	if x['Home.Ownership'] == 'RENT':
-# 		return 0
-# 	elif x['Home.Ownership'] == 'MORTGAGE':
-# 		return 1
-# 	else:
-# 		return 2
+def H_O(x):
+	if x['Home.Ownership'] == 'RENT':
+		return 0
+	elif x['Home.Ownership'] == 'MORTGAGE':
+		return 1
+	else:
+		return 2
 
-# loansData['H_O'] = loansData.apply(H_O, axis=1)
+loansData['H_O'] = loansData.apply(H_O, axis=1)
 
-# intrate = loansData['Interest.Rate']
-# income = loansData['Annual.Income']
-# home_ownership = loansData['H_O']
+intrate = loansData['Interest.Rate']
+income = loansData['Annual.Income']
+home_ownership = loansData['H_O']
 
-# loansData['Intercept'] = 1.0
+# The dependent variable
+y = np.matrix(intrate).transpose()
+#print(y)
 
-# ind_vars = ['Annual.Income']
+#The independent variables shaped as columns
+x1 = np.matrix(income).transpose()
+# print(x1)
+x2 = np.matrix(home_ownership).transpose()
 
-# logit = sm.Logit(loansData['Interest.Rate'], loansData[ind_vars])
-# result = logit.fit()
-# coeff = result.params
-# print(coeff)
+x = np.column_stack([x1])
+# print(x)
 
-# def logistic_function (coeff):
-# 	p = 1/(1 + math.e**(coeff['Intercept'] + coeff['FICO.Score']*fico - coeff['Amount.Requested']*loanamt))
-# 	return p
+# plt.figure()
+# plt.scatter(x,y, alpha=0.05)
+# plt.show()
 
-# print(logistic_function(coeff))
+X = sm.add_constant(x)
+model = sm.OLS(y,X, missing='drop')
+f = model.fit()
+
+print(f.summary())

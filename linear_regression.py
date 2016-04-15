@@ -33,11 +33,11 @@ x2 = np.matrix(loanamt).transpose()
 x = np.column_stack([x1,x2])
 print(x)
 
-# X = sm.add_constant(x)
-# model = sm.OLS(y,X)
-# f = model.fit()
+X = sm.add_constant(x)
+model = sm.OLS(y,X)
+f = model.fit()
 
-# print(f.summary())
+print(f.summary())
 
 # plt.figure()
 # p = loansData['FICO.Score'].hist()
