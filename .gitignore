@@ -1,3 +1,6 @@
 pysqlite-2.8.1.tar.gz
 pysqlite-2.8.1/
 dist
+*.csv
+patsy-master/
+LoanStats3b.csv

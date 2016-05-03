@@ -1,9 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import statsmodels.api as sm
 import math as math
+import statsmodels.formula.api as smf
 
 loansData = pd.read_csv('https://github.com/Thinkful-Ed/curric-data-001-data-sets/raw/master/loans/loansData.csv')
 
@@ -16,6 +16,8 @@ loansData['Loan.Length'] = cleanLoanLength
 loansData['FICO.Score'] = [int(val.split('-')[0]) for val in loansData['FICO.Range']]
 
 loansData['Annual.Income'] = loansData['Monthly.Income'].map(lambda val: val*12)
+loansData['Annual_Income'] = loansData['Annual.Income']
+loansData['Interest_Rate'] = loansData['Interest.Rate']
 
 def H_O(x):
 	if x['Home.Ownership'] == 'RENT':
@@ -40,7 +42,7 @@ x1 = np.matrix(income).transpose()
 # print(x1)
 x2 = np.matrix(home_ownership).transpose()
 
-x = np.column_stack([x1])
+x = np.column_stack([x1,x2])
 # print(x)
 
 # plt.figure()
@@ -51,4 +53,6 @@ X = sm.add_constant(x)
 model = sm.OLS(y,X, missing='drop')
 f = model.fit()
 
-print(f.summary())
+model = smf.ols(formula='Interest_Rate ~ Annual_Income', data=loansData, missing='drop').fit().summary()
+
+# print(f.summary())
