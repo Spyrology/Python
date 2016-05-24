@@ -99,7 +99,11 @@ id_bikes = collections.defaultdict(int) #defaultdict to store available bikes by
 for station in r.json()['stationBeanList']:
     id_bikes[station['id']] = station['availableBikes']
 
+time_stamp = (exec_time - datetime.datetime(1970,1,1)).total_seconds()
+
 #iterate through the defaultdict to update the values in the database
 with con:
     for k, v in id_bikes.iteritems():
-        cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time = " + str((exec_time - datetime.datetime(1970,1,1)).total_seconds()) + ";")
+        cur.execute("UPDATE available_bikes SET _" + str(k) + " = ? WHERE execution_time = ?", (v, time_stamp))
+
+con.commit()
